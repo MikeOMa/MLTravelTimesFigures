@@ -22,6 +22,9 @@ def make_default(drogue, res = 3):
     return net
 
 
+def get_res_4(drogue):
+    return make_default(drogue, res=4)
+
 # Run all 3 at the same time. they need about 1.5gb ram each to run.
 # So change this to a lower nuumber if you have <8gb ram.
 net = make_default(True)
@@ -31,12 +34,11 @@ p = Pool(3)
 to_store = list(p.map(make_default, drogue_setting))
 dict_of_networks = {drogue: net for drogue,
                     net in zip(drogue_setting, to_store)}
+
 pickle.dump(dict_of_networks, open(f'default_networks.p', 'wb'))
 del dict_of_networks
 del to_store
 gc.collect()
-def get_res_4(drogue):
-    return make_default(drogue, res=4)
 
 to_store = list(p.map(get_res_4, drogue_setting))
 dict_of_networks = {drogue: net for drogue,
